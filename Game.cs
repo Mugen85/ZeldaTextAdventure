@@ -107,36 +107,81 @@ public class Game
     }
 
     /// <summary>
+    /// Prova a spostare il giocatore nella direzione specificata.
+    /// </summary>
+    /// <param name="direction">La direzione in cui muoversi (es. "NORTH").</param>
+    private void Move(string direction)
+    {
+        // Prende la stanza attuale del giocatore
+        Room currentRoom = _world[_player.CurrentRoomId];
+
+        // Controlla se la direzione fornita è una delle uscite valide dalla stanza attuale
+        if (currentRoom.Exits.TryGetValue(direction, out int value))
+        {
+            // Se l'uscita esiste, aggiorna la stanza corrente del giocatore con l'ID della nuova stanza
+            _player.CurrentRoomId = value;
+
+            Console.WriteLine($"\nTi sposti verso {direction}...");
+
+            // Chiama Look() per descrivere la nuova stanza in cui sei appena entrato
+            Look();
+        }
+        else
+        {
+            // Se non c'è un'uscita in quella direzione
+            Console.WriteLine("\nNon puoi andare in quella direzione. C'è un muro.");
+        }
+    }
+
+    /// <summary>
     /// Il ciclo principale del gioco che continua finché il giocatore non esce.
     /// </summary>
     private void GameLoop()
     {
         bool isPlaying = true;
-
-        // Appena il gioco inizia, facciamo un "LOOK" automatico per descrivere la prima stanza.
-        Look();
+        Look(); // Descrive la stanza iniziale
 
         while (isPlaying)
         {
             Console.WriteLine("\nCosa vuoi fare?");
-            string? input = Console.ReadLine()?.ToUpper();
+            string? input = Console.ReadLine()?.ToUpper().Trim(); // Legge, converte in maiuscolo e toglie spazi inutili
 
-            // Ora il nostro switch capisce anche "LOOK"
-            switch (input)
+            if (string.IsNullOrEmpty(input))
             {
-                case "LOOK":
-                    Look();
-                    break;
-                case "EXIT":
-                    Console.WriteLine("Grazie per aver giocato!");
-                    isPlaying = false;
-                    break;
+                Console.WriteLine("Per favore, inserisci un comando.");
+                continue; // Salta il resto del ciclo e chiede un nuovo input
+            }
 
-                // TODO: Qui aggiungeremo il caso per "MOVE"
+            // Divide l'input in parti. Es: "MOVE NORTH" diventa ["MOVE", "NORTH"]
+            // Il secondo parametro '2' assicura che divida al massimo in 2 parti, utile per comandi futuri
+            string[] inputParts = input.Split([' '], 2);
+            string command = inputParts[0];
+            string argument = inputParts.Length > 1 ? inputParts[1] : "";
 
-                default:
-                    Console.WriteLine("Comando non valido.");
-                    break;
+            // Gestore dei comandi
+            if (command == "MOVE")
+            {
+                if (string.IsNullOrEmpty(argument))
+                {
+                    Console.WriteLine("Dove vuoi andare? Esempio: MOVE NORTH");
+                }
+                else
+                {
+                    Move(argument);
+                }
+            }
+            else if (command == "LOOK")
+            {
+                Look();
+            }
+            else if (command == "EXIT")
+            {
+                Console.WriteLine("Grazie per aver giocato!");
+                isPlaying = false;
+            }
+            else
+            {
+                Console.WriteLine("Comando non valido.");
             }
         }
     }
