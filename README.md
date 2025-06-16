@@ -1,30 +1,47 @@
-# Avventura Testuale di Zelda
+# 🛡️ Avventura Testuale di Zelda
+![C#](https://img.shields.io/badge/c%23-%23239120.svg?style=for-the-badge&logo=c-sharp&logoColor=white)
 
 Un semplice gioco di avventura testuale ispirato a The Legend of Zelda, creato in C#. Questo progetto è stato sviluppato come esercizio per approfondire i concetti della programmazione orientata agli oggetti.
 
-## Descrizione del Gioco
+## ✨ Features
+* **Mondo di Gioco Persistente:** La mappa del castello viene caricata dinamicamente da un file di testo (`Rooms.txt`).
+* **Esplorazione Interattiva:** Usa comandi semplici per interagire con l'ambiente.
+* **Architettura Orientata agli Oggetti:** Codice pulito e modulare grazie a classi dedicate per `Player`, `Room`, `Item` e `Monster`.
 
-L'eroe (il giocatore) deve navigare all'interno di un castello infestato da mostri per salvare la principessa Zelda. Il gioco si controlla tramite comandi testuali per muoversi tra le stanze, raccogliere oggetti e combattere i nemici.
+## 🚀 Come eseguire il progetto
+Per compilare ed eseguire il gioco sul tuo computer, avrai bisogno di:
+1.  [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0) (o superiore).
+2.  Clonare questo repository.
+3.  Navigare nella cartella del progetto ed eseguire il comando:
+    ```bash
+    dotnet run
+    ```
 
-## Come Giocare
+## 🎮 Comandi di gioco
+Controlla l'eroe con i seguenti comandi:
 
-Per giocare, avvia l'applicazione e usa i seguenti comandi:
+| Comando             | Esempio             | Descrizione                               | Stato Attuale |
+| ------------------- | ------------------- | ----------------------------------------- |:-------------:|
+| `LOOK`              | `LOOK`              | Descrive la stanza attuale e le uscite.   | ✅ **Attivo** |
+| `MOVE <direzione>`  | `MOVE NORTH`        | Ti sposta in una nuova stanza.            | ⏳ Prossimo   |
+| `PICK <oggetto>`    | `PICK SWORD`        | Raccoglie un oggetto dalla stanza.        | ❌ Inattivo   |
+| `DROP <oggetto>`    | `DROP SHIELD`       | Lascia un oggetto nella stanza.           | ❌ Inattivo   |
+| `ATTACK`            | `ATTACK`            | Attacca il mostro presente nella stanza.  | ❌ Inattivo   |
+| `EXIT`              | `EXIT`              | Termina la partita.                       | ✅ **Attivo** |
 
-* `MOVE <DIREZIONE>` (es. `MOVE NORTH`) - Per muoversi tra le stanze.
-* `LOOK` - Per ottenere la descrizione della stanza attuale.
-* `PICK <OGGETTO>` (es. `PICK SWORD`) - Per raccogliere un oggetto.
-* `DROP <OGGETTO>` - Per lasciare un oggetto.
-* `ATTACK` - Per attaccare un mostro nella stanza.
-* `EXIT` - Per uscire dal gioco.
 
-## Stato del Progetto
+## 📋 Stato del progetto
+Ecco un riepilogo più dettagliato dello stato di avanzamento:
 
-Attualmente, il progetto ha la seguente struttura di base:
-* [X] Classi per Giocatore, Stanza, Oggetto, Mostro.
-* [X] Lettura della storia iniziale da file.
-* [ ] Caricamento delle stanze e del mondo di gioco.
-* [ ] Implementazione completa dei comandi del giocatore.
+- [X] Creazione delle classi di base (`Player`, `Room`, `Item`, `Monster`).
+- [X] Lettura della storia iniziale da file di testo.
+- [X] Caricamento dinamico del mondo di gioco da `Rooms.txt`.
+- [X] Implementazione comando `LOOK`.
+- [X] Implementazione comando `EXIT`.
+- [ ] Implementazione comando `MOVE`.
+- [ ] Implementazione comandi `PICK` e `DROP` per la gestione dell'inventario.
+- [ ] Implementazione comando `ATTACK` e logica di combattimento.
+- [ ] Logica di vittoria e sconfitta.
 
 ---
-
-Sviluppato da [Marco Morello]
+Sviluppato da **Marco Morello**
