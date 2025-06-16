@@ -3,7 +3,11 @@
 public class Program
 {
     public static void Main()
-    {        
-        Game.Start();
+    {
+        // 1. CREA UN'ISTANZA (un oggetto specifico) della classe Game.
+        Game game = new();
+
+        // 2. CHIAMA IL METODO DI ISTANZA "Start" su QUELL'OGGETTO SPECIFICO.
+        game.Start();
     }
 }
