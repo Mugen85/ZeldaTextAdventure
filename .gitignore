@@ -1,0 +1,24 @@
+﻿# File di log e dipendenze
+*.log
+[Dd]ependencies/
+[Pp]ackages/
+
+# File generati da build e tool
+[Bb]in/
+[Oo]bj/
+[Rr]elease/
+[Rr]eleases/
+[Xx]86/
+[Xx]64/
+build/
+bld/
+
+# File specifici di Visual Studio
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.vs/
+.vs/
+project.lock.json
+project.assets.json

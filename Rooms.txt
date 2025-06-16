@@ -1,0 +1,2 @@
+﻿1;Questa è l'entrata del castello. Le pareti sono umide e un'aria gelida ti accoglie.;-1;2;-1;-1;SPADA;-1
+2;Questa stanza ha strane forme disegnate sui muri e le torce tremolanti rendono le facce ancora più spaventose.;-1;-1;-1;1;-1;-1
