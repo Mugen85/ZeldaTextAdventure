@@ -23,8 +23,8 @@ Controlla l'eroe con i seguenti comandi:
 | Comando             | Esempio             | Descrizione                               | Stato Attuale |
 | ------------------- | ------------------- | ----------------------------------------- |:-------------:|
 | `LOOK`              | `LOOK`              | Descrive la stanza attuale e le uscite.   | ✅ **Attivo** |
-| `MOVE <direzione>`  | `MOVE NORTH`        | Ti sposta in una nuova stanza.            | ⏳ Prossimo   |
-| `PICK <oggetto>`    | `PICK SWORD`        | Raccoglie un oggetto dalla stanza.        | ❌ Inattivo   |
+| `MOVE <direzione>`  | `MOVE NORTH`        | Ti sposta in una nuova stanza.            | ✅ **Attivo** |
+| `PICK <oggetto>`    | `PICK SWORD`        | Raccoglie un oggetto dalla stanza.        | ⏳ Prossimo   |
 | `DROP <oggetto>`    | `DROP SHIELD`       | Lascia un oggetto nella stanza.           | ❌ Inattivo   |
 | `ATTACK`            | `ATTACK`            | Attacca il mostro presente nella stanza.  | ❌ Inattivo   |
 | `EXIT`              | `EXIT`              | Termina la partita.                       | ✅ **Attivo** |
@@ -38,7 +38,7 @@ Ecco un riepilogo più dettagliato dello stato di avanzamento:
 - [X] Caricamento dinamico del mondo di gioco da `Rooms.txt`.
 - [X] Implementazione comando `LOOK`.
 - [X] Implementazione comando `EXIT`.
-- [ ] Implementazione comando `MOVE`.
+- [X] Implementazione comando `MOVE`.
 - [ ] Implementazione comandi `PICK` e `DROP` per la gestione dell'inventario.
 - [ ] Implementazione comando `ATTACK` e logica di combattimento.
 - [ ] Logica di vittoria e sconfitta.
