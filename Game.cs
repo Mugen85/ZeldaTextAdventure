@@ -39,47 +39,43 @@ public class Game
 
         try
         {
-            // Legge tutte le righe dal file Rooms.txt. Ogni riga è una stanza.
             string[] roomLines = File.ReadAllLines("Rooms.txt");
 
-            // Itera su ogni riga (cioè su ogni stanza) letta dal file.
             foreach (string line in roomLines)
             {
-                // Divide la riga in parti usando il punto e virgola come separatore.
                 string[] parts = line.Split(';');
 
-                // Estrae le informazioni e le converte nel tipo corretto.
-                // int.Parse() converte una stringa (es. "1") in un numero intero (es. 1).
                 int id = int.Parse(parts[0]);
                 string description = parts[1];
-
-                // Crea un nuovo oggetto Room con l'ID e la descrizione.
                 Room newRoom = new(id, description);
 
-                // Aggiunge le uscite alla stanza. Se l'uscita è -1, viene ignorata.
                 if (int.Parse(parts[2]) != -1) newRoom.Exits["NORTH"] = int.Parse(parts[2]);
                 if (int.Parse(parts[3]) != -1) newRoom.Exits["EAST"] = int.Parse(parts[3]);
                 if (int.Parse(parts[4]) != -1) newRoom.Exits["SOUTH"] = int.Parse(parts[4]);
                 if (int.Parse(parts[5]) != -1) newRoom.Exits["WEST"] = int.Parse(parts[5]);
 
-                // TODO: Aggiungeremo la logica per caricare Oggetti e Mostri in seguito.
-                // Per ora, ci concentriamo sulle stanze e le loro connessioni.
+                // --- NUOVA LOGICA PER GLI OGGETTI ---
+                // Controlla se ci sono oggetti nella stanza (se il campo non è "-1")
+                if (parts[6] != "-1")
+                {
+                    // Divide la stringa degli oggetti (es. "SPADA,POZIONE") in un array
+                    string[] itemNames = parts[6].Split(',');
+                    foreach (string itemName in itemNames)
+                    {
+                        // Per ogni nome, crea un nuovo oggetto Item e lo aggiunge alla lista della stanza
+                        newRoom.Items.Add(new Item(itemName));
+                    }
+                }
 
-                // Aggiunge la stanza appena creata e configurata al nostro mondo di gioco.
-                // La chiave è l'ID della stanza, il valore è l'oggetto Room stesso.
+                // TODO: Caricare i Mostri
+
                 _world.Add(id, newRoom);
             }
 
-            // Messaggio di successo per farci sapere che tutto è andato bene.
             Console.WriteLine($"Caricamento completato: {_world.Count} stanze caricate in memoria.");
-        }
-        catch (FileNotFoundException)
-        {
-            Console.WriteLine("ERRORE: Impossibile trovare il file 'Rooms.txt'. Assicurati che esista e che sia impostato su 'Copia se più recente'.");
         }
         catch (Exception ex)
         {
-            // Cattura qualsiasi altro errore durante il caricamento per evitare che il programma si blocchi.
             Console.WriteLine($"ERRORE durante il caricamento del mondo di gioco: {ex.Message}");
         }
     }
@@ -89,21 +85,35 @@ public class Game
     /// </summary>
     private void Look()
     {
-        // 1. Prende la stanza attuale dal dizionario _world usando l'ID della stanza del giocatore.
         Room currentRoom = _world[_player.CurrentRoomId];
-
-        // 2. Stampa la descrizione della stanza.
         Console.WriteLine(currentRoom.Description);
 
-        // 3. Mostra tutte le uscite possibili dalla stanza.
         Console.WriteLine("Puoi andare verso:");
-        foreach (var exit in currentRoom.Exits)
+        // Se non ci sono uscite, lo specifica.
+        if (currentRoom.Exits.Count == 0)
         {
-            // exit.Key è la direzione (es. "NORTH"), exit.Value è l'ID della stanza di destinazione.
-            Console.WriteLine($"- {exit.Key}");
+            Console.WriteLine("- Nessuna uscita da qui.");
+        }
+        else
+        {
+            foreach (var exit in currentRoom.Exits)
+            {
+                Console.WriteLine($"- {exit.Key}");
+            }
         }
 
-        // TODO: In seguito, qui mostreremo anche gli oggetti e i mostri presenti.
+        // --- NUOVA LOGICA PER MOSTRARE GLI OGGETTI ---
+        // Controlla se ci sono oggetti nella stanza
+        if (currentRoom.Items.Count != 0) 
+        {
+            Console.WriteLine("Vedi i seguenti oggetti per terra:");
+            foreach (var item in currentRoom.Items)
+            {
+                Console.WriteLine($"- {item.Name}");
+            }
+        }
+
+        // TODO: In seguito, qui mostreremo anche i mostri presenti.
     }
 
     /// <summary>
