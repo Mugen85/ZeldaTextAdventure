@@ -144,31 +144,60 @@ public class Game
     }
 
     /// <summary>
+    /// Prova a raccogliere un oggetto dalla stanza e ad aggiungerlo all'inventario del giocatore.
+    /// </summary>
+    /// <param name="itemName">Il nome dell'oggetto da raccogliere.</param>
+    private void Pick(string itemName)
+    {
+        Room currentRoom = _world[_player.CurrentRoomId];
+
+        // Cerca l'oggetto nella stanza, ignorando le differenze tra maiuscole e minuscole.
+        // FirstOrDefault è un metodo LINQ che restituisce il primo elemento che soddisfa la condizione,
+        // o null se non ne trova nessuno. È perfetto per questo scopo.
+        Item? itemToPick = currentRoom.Items.FirstOrDefault(i => i.Name.Equals(itemName, StringComparison.CurrentCultureIgnoreCase));
+
+        if (itemToPick != null)
+        {
+            // L'oggetto è stato trovato nella stanza.
+
+            // Rimuoviamo l'oggetto dalla lista della stanza.
+            currentRoom.Items.Remove(itemToPick);
+
+            // Aggiungiamo lo stesso oggetto alla borsa (inventario) del giocatore.
+            _player.Bag.Add(itemToPick);
+
+            Console.WriteLine($"\nHai raccolto: {itemToPick.Name}");
+        }
+        else
+        {
+            // L'oggetto non è stato trovato.
+            Console.WriteLine($"\nNon c'è nessun {itemName} qui.");
+        }
+    }
+
+    /// <summary>
     /// Il ciclo principale del gioco che continua finché il giocatore non esce.
     /// </summary>
     private void GameLoop()
     {
         bool isPlaying = true;
-        Look(); // Descrive la stanza iniziale
+        Look();
 
         while (isPlaying)
         {
             Console.WriteLine("\nCosa vuoi fare?");
-            string? input = Console.ReadLine()?.ToUpper().Trim(); // Legge, converte in maiuscolo e toglie spazi inutili
+            string? input = Console.ReadLine()?.ToUpper().Trim();
 
             if (string.IsNullOrEmpty(input))
             {
                 Console.WriteLine("Per favore, inserisci un comando.");
-                continue; // Salta il resto del ciclo e chiede un nuovo input
+                continue;
             }
 
-            // Divide l'input in parti. Es: "MOVE NORTH" diventa ["MOVE", "NORTH"]
-            // Il secondo parametro '2' assicura che divida al massimo in 2 parti, utile per comandi futuri
             string[] inputParts = input.Split([' '], 2);
             string command = inputParts[0];
             string argument = inputParts.Length > 1 ? inputParts[1] : "";
 
-            // Gestore dei comandi
             if (command == "MOVE")
             {
                 if (string.IsNullOrEmpty(argument))
@@ -183,6 +212,18 @@ public class Game
             else if (command == "LOOK")
             {
                 Look();
+            }
+            // --- NUOVO BLOCCO PER PICK ---
+            else if (command == "PICK")
+            {
+                if (string.IsNullOrEmpty(argument))
+                {
+                    Console.WriteLine("Cosa vuoi raccogliere? Esempio: PICK SPADA");
+                }
+                else
+                {
+                    Pick(argument);
+                }
             }
             else if (command == "EXIT")
             {
