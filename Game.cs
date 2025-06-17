@@ -238,6 +238,11 @@ public class Game
             {
                 Look();
             }
+            // --- NUOVO BLOCCO PER INVENTORY ---
+            else if (command == "INVENTORY" || command == "I")
+            {
+                ShowInventory();
+            }
             else if (command == "PICK")
             {
                 if (string.IsNullOrEmpty(argument))
@@ -245,7 +250,6 @@ public class Game
                 else
                     Pick(argument);
             }
-            // --- NUOVO BLOCCO PER DROP ---
             else if (command == "DROP")
             {
                 if (string.IsNullOrEmpty(argument))
@@ -263,5 +267,26 @@ public class Game
                 Console.WriteLine("Comando non valido.");
             }
         }
+    }
+
+    /// <summary>
+    /// Mostra al giocatore gli oggetti contenuti nel suo inventario (borsa).
+    /// </summary>
+    private void ShowInventory()
+    {
+        Console.WriteLine("\n--- INVENTARIO ---");
+        if (_player.Bag.Count == 0)
+        {
+            Console.WriteLine("La tua borsa è vuota.");
+        }
+        else
+        {
+            Console.WriteLine("Nella tua borsa hai:");
+            foreach (var item in _player.Bag)
+            {
+                Console.WriteLine($"- {item.Name}");
+            }
+        }
+        Console.WriteLine("------------------");
     }
 }

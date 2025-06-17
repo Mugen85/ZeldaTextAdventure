@@ -1,6 +1,5 @@
 ﻿namespace ZeldaTextAdventure;
 // Questo è il file principale del nostro gioco.
-// using System.IO; serve per leggere e scrivere file.
 using System.Collections.Generic;
 
 /// <summary>
