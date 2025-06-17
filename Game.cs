@@ -176,6 +176,35 @@ public class Game
     }
 
     /// <summary>
+    /// Prova a lasciare un oggetto dall'inventario del giocatore nella stanza corrente.
+    /// </summary>
+    /// <param name="itemName">Il nome dell'oggetto da lasciare.</param>
+    private void Drop(string itemName)
+    {
+        // Cerca l'oggetto nella borsa del giocatore, ignorando le differenze tra maiuscole e minuscole.
+        Item? itemToDrop = _player.Bag.FirstOrDefault(i => i.Name.Equals(itemName, StringComparison.CurrentCultureIgnoreCase));
+
+        if (itemToDrop != null)
+        {
+            // L'oggetto è stato trovato nell'inventario.
+
+            // Rimuoviamo l'oggetto dalla borsa del giocatore.
+            _player.Bag.Remove(itemToDrop);
+
+            // Aggiungiamo lo stesso oggetto alla stanza corrente.
+            Room currentRoom = _world[_player.CurrentRoomId];
+            currentRoom.Items.Add(itemToDrop);
+
+            Console.WriteLine($"\nHai lasciato cadere: {itemToDrop.Name}");
+        }
+        else
+        {
+            // L'oggetto non è stato trovato nell'inventario.
+            Console.WriteLine($"\nNon hai un {itemName} nella borsa.");
+        }
+    }
+
+    /// <summary>
     /// Il ciclo principale del gioco che continua finché il giocatore non esce.
     /// </summary>
     private void GameLoop()
@@ -201,29 +230,28 @@ public class Game
             if (command == "MOVE")
             {
                 if (string.IsNullOrEmpty(argument))
-                {
                     Console.WriteLine("Dove vuoi andare? Esempio: MOVE NORTH");
-                }
                 else
-                {
                     Move(argument);
-                }
             }
             else if (command == "LOOK")
             {
                 Look();
             }
-            // --- NUOVO BLOCCO PER PICK ---
             else if (command == "PICK")
             {
                 if (string.IsNullOrEmpty(argument))
-                {
                     Console.WriteLine("Cosa vuoi raccogliere? Esempio: PICK SPADA");
-                }
                 else
-                {
                     Pick(argument);
-                }
+            }
+            // --- NUOVO BLOCCO PER DROP ---
+            else if (command == "DROP")
+            {
+                if (string.IsNullOrEmpty(argument))
+                    Console.WriteLine("Cosa vuoi lasciare? Esempio: DROP SPADA");
+                else
+                    Drop(argument);
             }
             else if (command == "EXIT")
             {
