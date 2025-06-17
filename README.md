@@ -4,9 +4,9 @@
 Un semplice gioco di avventura testuale ispirato a The Legend of Zelda, creato in C#. Questo progetto è stato sviluppato come esercizio per approfondire i concetti della programmazione orientata agli oggetti.
 
 ## ✨ Features
-* **Mondo di Gioco Persistente:** La mappa del castello viene caricata dinamicamente da un file di testo (`Rooms.txt`).
-* **Esplorazione Interattiva:** Usa comandi semplici per interagire con l'ambiente.
-* **Architettura Orientata agli Oggetti:** Codice pulito e modulare grazie a classi dedicate per `Player`, `Room`, `Item` e `Monster`.
+* **Mondo di gioco persistente:** la mappa del castello viene caricata dinamicamente da un file di testo (`Rooms.txt`).
+* **Esplorazione interattiva:** usa comandi semplici per interagire con l'ambiente.
+* **Architettura orientata agli oggetti:** codice pulito e modulare grazie a classi dedicate per `Player`, `Room`, `Item` e `Monster`.
 
 ## 🚀 Come eseguire il progetto
 Per compilare ed eseguire il gioco sul tuo computer, avrai bisogno di:
