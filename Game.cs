@@ -233,6 +233,64 @@ public class Game
     }
 
     /// <summary>
+    /// Gestisce il tentativo del giocatore di attaccare un mostro nella stanza.
+    /// </summary>
+    /// <returns>Restituisce 'false' se il giocatore muore, altrimenti 'true'.</returns>
+    private bool Attack()
+    {
+        Room currentRoom = _world[_player.CurrentRoomId];
+
+        // Controlla se c'è un mostro nella stanza
+        if (currentRoom.Monster == null)
+        {
+            Console.WriteLine("\nNon c'è niente da attaccare qui.");
+            return true; // Il gioco continua
+        }
+
+        // Controlla se il mostro è già morto
+        if (!currentRoom.Monster.IsAlive)
+        {
+            Console.WriteLine($"\nAttacchi il corpo senza vita di {currentRoom.Monster.Name}. Non è molto sportivo.");
+            return true; // Il gioco continua
+        }
+
+        // C'è un mostro vivo, inizia il combattimento!
+        Monster monster = currentRoom.Monster;
+        Console.WriteLine($"\nTi prepari a combattere contro {monster.Name}!");
+
+        // Controlla se il giocatore ha l'arma giusta (la debolezza del mostro)
+        bool hasWeaknessItem = _player.Bag.Any(item => item.Name.Equals(monster.Weakness, StringComparison.CurrentCultureIgnoreCase));
+
+        if (hasWeaknessItem)
+        {
+            // --- VITTORIA ---
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine($"Usando il tuo {monster.Weakness}, riesci a sconfiggere {monster.Name}!");
+            Console.ResetColor();
+
+            monster.IsAlive = false;
+
+            // Sblocca la nuova uscita
+            currentRoom.Exits[monster.UnlocksExitDirection] = monster.UnlocksExitToRoom;
+            Console.WriteLine($"Sconfiggendolo, hai aperto un nuovo passaggio verso {monster.UnlocksExitDirection}!");
+
+            return true; // Il gioco continua
+        }
+        else
+        {
+            // --- SCONFITTA ---
+            Console.ForegroundColor = ConsoleColor.DarkRed;
+            Console.WriteLine($"{monster.Name} è troppo forte! Senza l'arma giusta, non hai speranze.");
+            Console.ResetColor();
+
+            // Legge e mostra il file di morte e termina il gioco
+            Console.WriteLine(File.ReadAllText("EndDead.txt"));
+
+            return false; // Il gioco finisce
+        }
+    }
+
+    /// <summary>
     /// Il ciclo principale del gioco che continua finché il giocatore non esce.
     /// </summary>
     private void GameLoop()
@@ -257,33 +315,32 @@ public class Game
 
             if (command == "MOVE")
             {
-                if (string.IsNullOrEmpty(argument))
-                    Console.WriteLine("Dove vuoi andare? Esempio: MOVE NORTH");
-                else
-                    Move(argument);
+                if (string.IsNullOrEmpty(argument)) Console.WriteLine("Dove vuoi andare? Esempio: MOVE NORTH");
+                else Move(argument);
             }
             else if (command == "LOOK")
             {
                 Look();
             }
-            // --- NUOVO BLOCCO PER INVENTORY ---
             else if (command == "INVENTORY" || command == "I")
             {
                 ShowInventory();
             }
             else if (command == "PICK")
             {
-                if (string.IsNullOrEmpty(argument))
-                    Console.WriteLine("Cosa vuoi raccogliere? Esempio: PICK SPADA");
-                else
-                    Pick(argument);
+                if (string.IsNullOrEmpty(argument)) Console.WriteLine("Cosa vuoi raccogliere? Esempio: PICK SPADA");
+                else Pick(argument);
             }
             else if (command == "DROP")
             {
-                if (string.IsNullOrEmpty(argument))
-                    Console.WriteLine("Cosa vuoi lasciare? Esempio: DROP SPADA");
-                else
-                    Drop(argument);
+                if (string.IsNullOrEmpty(argument)) Console.WriteLine("Cosa vuoi lasciare? Esempio: DROP SPADA");
+                else Drop(argument);
+            }
+            // --- NUOVO BLOCCO PER ATTACK ---
+            else if (command == "ATTACK")
+            {
+                // Il valore di isPlaying viene aggiornato in base all'esito del combattimento
+                isPlaying = Attack();
             }
             else if (command == "EXIT")
             {
