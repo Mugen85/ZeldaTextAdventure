@@ -12,6 +12,7 @@ public class Game
 {
     private readonly Player _player = new();
     private readonly Dictionary<int, Room> _world = [];
+    private readonly Dictionary<int, Monster> _allMonsters = [];
 
     /// <summary>
     /// Metodo principale che avvia e gestisce il gioco.
@@ -39,12 +40,26 @@ public class Game
 
         try
         {
-            string[] roomLines = File.ReadAllLines("Rooms.txt");
+            // --- 1. CARICA TUTTI I MOSTRI ---
+            string[] monsterLines = File.ReadAllLines("Monsters.txt");
+            foreach (string line in monsterLines)
+            {
+                string[] parts = line.Split(';');
+                int id = int.Parse(parts[0]);
+                string name = parts[1];
+                string weakness = parts[2];
+                string unlocksDir = parts[3];
+                int unlocksRoom = int.Parse(parts[4]);
 
+                Monster newMonster = new(id, name, weakness, unlocksDir, unlocksRoom);
+                _allMonsters.Add(id, newMonster);
+            }
+
+            // --- 2. CARICA LE STANZE E ASSEGNA I MOSTRI ---
+            string[] roomLines = File.ReadAllLines("Rooms.txt");
             foreach (string line in roomLines)
             {
                 string[] parts = line.Split(';');
-
                 int id = int.Parse(parts[0]);
                 string description = parts[1];
                 Room newRoom = new(id, description);
@@ -54,25 +69,26 @@ public class Game
                 if (int.Parse(parts[4]) != -1) newRoom.Exits["SOUTH"] = int.Parse(parts[4]);
                 if (int.Parse(parts[5]) != -1) newRoom.Exits["WEST"] = int.Parse(parts[5]);
 
-                // --- NUOVA LOGICA PER GLI OGGETTI ---
-                // Controlla se ci sono oggetti nella stanza (se il campo non è "-1")
                 if (parts[6] != "-1")
                 {
-                    // Divide la stringa degli oggetti (es. "SPADA,POZIONE") in un array
                     string[] itemNames = parts[6].Split(',');
                     foreach (string itemName in itemNames)
                     {
-                        // Per ogni nome, crea un nuovo oggetto Item e lo aggiunge alla lista della stanza
-                        newRoom.Items.Add(new Item(itemName));
+                        newRoom.Items.Add(new Item(itemName.Trim()));
                     }
                 }
 
-                // TODO: Caricare i Mostri
+                // Assegna il mostro alla stanza se presente
+                int monsterId = int.Parse(parts[7]);
+                if (monsterId != -1)
+                {
+                    newRoom.Monster = _allMonsters[monsterId];
+                }
 
                 _world.Add(id, newRoom);
             }
 
-            Console.WriteLine($"Caricamento completato: {_world.Count} stanze caricate in memoria.");
+            Console.WriteLine($"Caricamento completato: {_world.Count} stanze e {_allMonsters.Count} tipi di mostri caricati.");
         }
         catch (Exception ex)
         {
@@ -89,7 +105,6 @@ public class Game
         Console.WriteLine(currentRoom.Description);
 
         Console.WriteLine("Puoi andare verso:");
-        // Se non ci sono uscite, lo specifica.
         if (currentRoom.Exits.Count == 0)
         {
             Console.WriteLine("- Nessuna uscita da qui.");
@@ -102,9 +117,7 @@ public class Game
             }
         }
 
-        // --- NUOVA LOGICA PER MOSTRARE GLI OGGETTI ---
-        // Controlla se ci sono oggetti nella stanza
-        if (currentRoom.Items.Count != 0) 
+        if (currentRoom.Items.Count != 0)
         {
             Console.WriteLine("Vedi i seguenti oggetti per terra:");
             foreach (var item in currentRoom.Items)
@@ -113,7 +126,22 @@ public class Game
             }
         }
 
-        // TODO: In seguito, qui mostreremo anche i mostri presenti.
+        // --- NUOVA LOGICA PER MOSTRARE I MOSTRI ---
+        if (currentRoom.Monster != null)
+        {
+            if (currentRoom.Monster.IsAlive)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine($"\nPERICOLO: {currentRoom.Monster.Name} è qui e ti blocca il passaggio!");
+                Console.ResetColor();
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.DarkGray;
+                Console.WriteLine($"\nVedi il corpo senza vita di {currentRoom.Monster.Name} per terra.");
+                Console.ResetColor();
+            }
+        }
     }
 
     /// <summary>

@@ -1,0 +1,2 @@
+﻿1;Medusa;DAGGER;NORTH;8
+2;Dracula;CROSS;EAST;9

@@ -1,2 +1,4 @@
-﻿1;Questa è l'entrata del castello. Le pareti sono umide e un'aria gelida ti accoglie.;-1;2;-1;-1;SPADA;-1
-2;Questa stanza ha strane forme disegnate sui muri e le torce tremolanti rendono le facce ancora più spaventose.;-1;-1;-1;1;-1;-1
+﻿1;Questa è l'entrata del castello. Le pareti sono umide e un'aria gelida ti accoglie.;-1;2;-1;-1;DAGGER,CROSS;-1
+2;Questa stanza ha strane forme disegnate sui muri e le torce tremolanti rendono le facce ancora più spaventose.;5;-1;-1;1;-1;-1
+5;Sei in un lungo corridoio illuminato da torce. Una pesante porta di legno è di fronte a te.;-1;6;2;-1;-1;1
+6;Questa stanza è sorprendentemente sfarzosa, con arazzi polverosi appesi alle pareti.;-1;-1;-1;5;-1;2
