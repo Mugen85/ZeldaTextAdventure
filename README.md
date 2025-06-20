@@ -6,42 +6,39 @@ Un semplice gioco di avventura testuale ispirato a The Legend of Zelda, creato i
 ## ✨ Features
 * **Mondo di gioco persistente:** la mappa del castello viene caricata dinamicamente da un file di testo (`Rooms.txt`).
 * **Esplorazione interattiva:** usa comandi semplici per interagire con l'ambiente.
+* **Sistema di combattimento:** affronta i mostri che bloccano il cammino usando le armi corrette.
 * **Architettura orientata agli oggetti:** codice pulito e modulare grazie a classi dedicate per `Player`, `Room`, `Item` e `Monster`.
 
 ## 🚀 Come eseguire il progetto
 Per compilare ed eseguire il gioco sul tuo computer, avrai bisogno di:
-1.  [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0) (o superiore).
-2.  Clonare questo repository.
-3.  Navigare nella cartella del progetto ed eseguire il comando:
-    ```bash
-    dotnet run
-    ```
+1.  [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0) (o superiore).
+2.  Clonare questo repository.
+3.  Navigare nella cartella del progetto ed eseguire il comando:
+    ```bash
+    dotnet run
+    ```
 
 ## 🎮 Comandi di gioco
 Controlla l'eroe con i seguenti comandi:
 
-| Comando             | Esempio             | Descrizione                               | Stato Attuale |
+| Comando             | Esempio             | Descrizione                               | Stato Attuale |
 | ------------------- | ------------------- | ----------------------------------------- |:-------------:|
-| `LOOK`              | `LOOK`              | Descrive la stanza attuale e le uscite.   | ✅ **Attivo** |
-| `MOVE <direzione>`  | `MOVE NORTH`        | Ti sposta in una nuova stanza.            | ✅ **Attivo** |
-| `PICK <oggetto>`    | `PICK SWORD`        | Raccoglie un oggetto dalla stanza.        | ✅ **Attivo** |
-| `DROP <oggetto>`    | `DROP SHIELD`       | Lascia un oggetto nella stanza.           | ✅ **Attivo** |
-| `ATTACK`            | `ATTACK`            | Attacca il mostro presente nella stanza.  | ⏳ Prossimo   |
-| `EXIT`              | `EXIT`              | Termina la partita.                       | ✅ **Attivo** |
+| `LOOK`              | `LOOK`              | Descrive la stanza attuale e le uscite.   | ✅ **Attivo** |
+| `MOVE <direzione>`  | `MOVE NORTH`        | Ti sposta in una nuova stanza.            | ✅ **Attivo** |
+| `PICK <oggetto>`    | `PICK DAGGER`       | Raccoglie un oggetto dalla stanza.        | ✅ **Attivo** |
+| `DROP <oggetto>`    | `DROP CROSS`        | Lascia un oggetto nella stanza.           | ✅ **Attivo** |
+| `ATTACK`            | `ATTACK`            | Attacca il mostro presente nella stanza.  | ✅ **Attivo** |
+| `INVENTORY` / `I`   | `INVENTORY`         | Mostra il contenuto della borsa.          | ✅ **Attivo** |
+| `EXIT`              | `EXIT`              | Termina la partita.                       | ⚠️ **Da potenziare** |
 
 
-## 📋 Stato del progetto
-Ecco un riepilogo più dettagliato dello stato di avanzamento:
+## 📋 Prossimi Passi e Finalizzazione
+Per completare tutti i requisiti del progetto, mancano i seguenti passaggi:
 
-- [X] Creazione delle classi di base (`Player`, `Room`, `Item`, `Monster`).
-- [X] Lettura della storia iniziale da file di testo.
-- [X] Caricamento dinamico del mondo di gioco da `Rooms.txt`.
-- [X] Implementazione comando `LOOK`.
-- [X] Implementazione comando `EXIT`.
-- [X] Implementazione comando `MOVE`.
-- [X] Implementazione comandi `PICK` e `DROP` per la gestione dell'inventario.
-- [ ] Implementazione comando `ATTACK` e logica di combattimento.
-- [ ] Logica di vittoria e sconfitta.
+- [ ] Aggiungere una proprietà `HasRescuedPrincess` alla classe `Player` per tenere traccia del salvataggio.
+- [ ] Definire la stanza finale in cui si trova la principessa (es. Stanza 8 o 9).
+- [ ] Modificare la logica di movimento per impostare `HasRescuedPrincess` a `true` quando il giocatore entra nella stanza finale.
+- [ ] Potenziare il comando `EXIT` per controllare lo stato di `HasRescuedPrincess` e mostrare il messaggio di vittoria (`EndWin.txt`) o di sconfitta (`EndLose.txt`) corretto.
 
 ---
 Sviluppato da **Marco Morello**
