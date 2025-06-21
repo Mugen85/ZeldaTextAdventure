@@ -9,27 +9,17 @@ using ZeldaTextAdventure.Models;
 // --- CLASSE PRINCIPALE DEL GIOCO ---
 // Questa classe gestirà la logica principale, il caricamento e il ciclo di gioco.
 
-public class Game
+public class GameEngine
 {
     private readonly Player _player = new();
     private readonly Dictionary<int, Room> _world = [];
     private readonly Dictionary<int, Monster> _allMonsters = [];
+    public int PlayerCurrentRoomId => _player.CurrentRoomId;
+    public bool PlayerHasRescuedPrincess => _player.HasRescuedPrincess;
 
-    /// <summary>
-    /// Metodo principale che avvia e gestisce il gioco.
-    /// </summary>
-    public void Start()
+    public GameEngine()
     {
-        // 1. Carica i dati del gioco dai file
         LoadGameData();
-
-        // 2. Mostra la storia iniziale
-        Console.WriteLine(File.ReadAllText("Start.txt"));
-        Console.WriteLine("\nPremi Invio per iniziare...");
-        Console.ReadLine();
-
-        // 3. Avvia il ciclo di gioco
-        GameLoop();
     }
 
     /// <summary>
@@ -42,7 +32,7 @@ public class Game
         try
         {
             // --- 1. CARICA TUTTI I MOSTRI ---
-            string[] monsterLines = File.ReadAllLines("Monsters.txt");
+            string[] monsterLines = File.ReadAllLines("Data/Monsters.txt");
             foreach (string line in monsterLines)
             {
                 string[] parts = line.Split(';');
@@ -57,7 +47,7 @@ public class Game
             }
 
             // --- 2. CARICA LE STANZE E ASSEGNA I MOSTRI ---
-            string[] roomLines = File.ReadAllLines("Rooms.txt");
+            string[] roomLines = File.ReadAllLines("Data/Rooms.txt");
             foreach (string line in roomLines)
             {
                 string[] parts = line.Split(';');
@@ -100,7 +90,7 @@ public class Game
     /// <summary>
     /// Descrive la stanza corrente, incluse le uscite, gli oggetti e i mostri.
     /// </summary>
-    private void Look()
+    public void Look()
     {
         Room currentRoom = _world[_player.CurrentRoomId];
         Console.WriteLine(currentRoom.Description);
@@ -149,7 +139,7 @@ public class Game
     /// Prova a spostare il giocatore nella direzione specificata.
     /// </summary>
     /// <param name="direction">La direzione in cui muoversi (es. "NORTH").</param>
-    private void Move(string direction)
+    public void Move(string direction)
     {
         Room currentRoom = _world[_player.CurrentRoomId];
 
@@ -185,7 +175,7 @@ public class Game
     /// Prova a raccogliere un oggetto dalla stanza e ad aggiungerlo all'inventario del giocatore.
     /// </summary>
     /// <param name="itemName">Il nome dell'oggetto da raccogliere.</param>
-    private void Pick(string itemName)
+    public void Pick(string itemName)
     {
         Room currentRoom = _world[_player.CurrentRoomId];
 
@@ -217,7 +207,7 @@ public class Game
     /// Prova a lasciare un oggetto dall'inventario del giocatore nella stanza corrente.
     /// </summary>
     /// <param name="itemName">Il nome dell'oggetto da lasciare.</param>
-    private void Drop(string itemName)
+    public void Drop(string itemName)
     {
         // Cerca l'oggetto nella borsa del giocatore, ignorando le differenze tra maiuscole e minuscole.
         Item? itemToDrop = _player.Bag.FirstOrDefault(i => i.Name.Equals(itemName, StringComparison.CurrentCultureIgnoreCase));
@@ -246,7 +236,7 @@ public class Game
     /// Gestisce il tentativo del giocatore di attaccare un mostro nella stanza.
     /// </summary>
     /// <returns>Restituisce 'false' se il giocatore muore, altrimenti 'true'.</returns>
-    private bool Attack()
+    public bool Attack()
     {
         Room currentRoom = _world[_player.CurrentRoomId];
 
@@ -294,95 +284,18 @@ public class Game
             Console.ResetColor();
 
             // Legge e mostra il file di morte e termina il gioco
-            Console.WriteLine(File.ReadAllText("EndDead.txt"));
+            Console.WriteLine(File.ReadAllText("Data/EndDead.txt"));
 
             return false; // Il gioco finisce
         }
     }
 
-    /// <summary>
-    /// Il ciclo principale del gioco che continua finché il giocatore non esce.
-    /// </summary>
-    private void GameLoop()
-    {     
-        bool isPlaying = true;
-        Look();
-
-        while (isPlaying)
-        {
-            Console.WriteLine("\nCosa vuoi fare?");
-            string? input = Console.ReadLine();
-
-            // Il GameLoop non deve più sapere come è fatto l'input,
-            // delega tutto al parser!
-            Command command = CommandParser.Parse(input);
-
-            // Lo switch ora è basato sull'enum, molto più pulito e sicuro!
-            switch (command.Action)
-            {
-                case Verb.MOVE:
-                    if (string.IsNullOrEmpty(command.Argument)) Console.WriteLine("Dove vuoi andare? Esempio: MOVE NORTH");
-                    else Move(command.Argument);
-                    break;
-
-                case Verb.LOOK:
-                    Look();
-                    break;
-
-                case Verb.INVENTORY:
-                    ShowInventory();
-                    break;
-
-                case Verb.PICK:
-                    if (string.IsNullOrEmpty(command.Argument)) Console.WriteLine("Cosa vuoi raccogliere? Esempio: PICK SPADA");
-                    else Pick(command.Argument);
-                    break;
-
-                case Verb.DROP:
-                    if (string.IsNullOrEmpty(command.Argument)) Console.WriteLine("Cosa vuoi lasciare? Esempio: DROP SPADA");
-                    else Drop(command.Argument);
-                    break;
-
-                case Verb.ATTACK:
-                    isPlaying = Attack();
-                    break;
-
-                case Verb.EXIT:
-                    // ... (La logica di EXIT rimane invariata)
-                    const int exitRoomId = 1;
-                    if (_player.CurrentRoomId == exitRoomId)
-                    {
-                        if (_player.HasRescuedPrincess)
-                        {
-                            Console.ForegroundColor = ConsoleColor.Yellow;
-                            Console.WriteLine(File.ReadAllText("EndWin.txt"));
-                            Console.ResetColor();
-                        }
-                        else
-                        {
-                            Console.ForegroundColor = ConsoleColor.Blue;
-                            Console.WriteLine(File.ReadAllText("EndLose.txt"));
-                            Console.ResetColor();
-                        }
-                    }
-                    else
-                    {
-                        Console.WriteLine("Grazie per aver giocato!");
-                    }
-                    isPlaying = false;
-                    break;
-
-                case Verb.UNKNOWN:
-                    Console.WriteLine("Comando non valido.");
-                    break;
-            }
-        }
-    }
+  
 
     /// <summary>
     /// Mostra al giocatore gli oggetti contenuti nel suo inventario (borsa).
     /// </summary>
-    private void ShowInventory()
+    public void ShowInventory()
     {
         Console.WriteLine("\n--- INVENTARIO ---");
         if (_player.Bag.Count == 0)
