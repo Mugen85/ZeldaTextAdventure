@@ -1,18 +1,30 @@
-﻿namespace ZeldaTextAdventure.Models;
-
-/// <summary>
+﻿/// <summary>
 /// Rappresenta un mostro nel gioco.
 /// </summary>
-public class Monster(int id, string name, string weakness, string unlocksExitDirection, int unlocksExitToRoom)
+using System.Text.Json.Serialization;
+
+namespace ZeldaTextAdventure.Models
 {
-    public int ID { get; set; } = id;
-    public string Name { get; set; } = name;
-    public bool IsAlive { get; set; } = true;
+    public class Monster
+    {
+        // --- PROPRIETÀ DA AGGIUNGERE/VERIFICARE ---
+        [JsonPropertyName("id")]
+        public int Id { get; set; }
 
-    // La debolezza del mostro (il nome dell'oggetto che può ucciderlo)
-    public string Weakness { get; set; } = weakness;
+        // Proprietà esistenti
+        [JsonPropertyName("name")]
+        public string? Name { get; set; }
 
-    // L'uscita che si sblocca alla sua morte
-    public string UnlocksExitDirection { get; set; } = unlocksExitDirection;
-    public int UnlocksExitToRoom { get; set; } = unlocksExitToRoom;
+        [JsonPropertyName("isAlive")]
+        public bool IsAlive { get; set; } = true;
+
+        [JsonPropertyName("weakness")]
+        public string? Weakness { get; set; }
+
+        [JsonPropertyName("unlocksExitDirection")]
+        public string? UnlocksExitDirection { get; set; }
+
+        [JsonPropertyName("unlocksExitToRoom")]
+        public int UnlocksExitToRoom { get; set; }
+    }
 }

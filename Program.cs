@@ -5,19 +5,19 @@ namespace ZeldaTextAdventure
 {
     public class Program
     {
+        // In Program.cs
         public static void Main()
         {
-            // 1. Inizializzazione
             var engine = new GameEngine();
             bool isPlaying = true;
 
-            Console.WriteLine(File.ReadAllText("Data/Start.txt"));
+            // Ora prendiamo il testo dall'engine, non più da un file!
+            Console.WriteLine(engine.StartStory);
             Console.WriteLine("\nPremi Invio per iniziare...");
             Console.ReadLine();
 
             engine.Look();
 
-            // 2. Ciclo di Gioco
             while (isPlaying)
             {
                 Console.WriteLine("\nCosa vuoi fare?");
@@ -26,57 +26,37 @@ namespace ZeldaTextAdventure
 
                 switch (command.Action)
                 {
-                    case Verb.MOVE:
-                        if (string.IsNullOrEmpty(command.Argument)) Console.WriteLine("Dove vuoi andare?");
-                        else engine.Move(command.Argument);
-                        break;
-                    case Verb.LOOK:
-                        engine.Look();
-                        break;
-                    case Verb.INVENTORY:
-                        engine.ShowInventory();
-                        break;
-                    case Verb.PICK:
-                        if (string.IsNullOrEmpty(command.Argument)) Console.WriteLine("Cosa vuoi raccogliere?");
-                        else engine.Pick(command.Argument);
-                        break;
-                    case Verb.DROP:
-                        if (string.IsNullOrEmpty(command.Argument)) Console.WriteLine("Cosa vuoi lasciare?");
-                        else engine.Drop(command.Argument);
-                        break;
-                    case Verb.ATTACK:
-                        isPlaying = engine.Attack();
-                        break;
+                    // ... tutti i case da MOVE a ATTACK rimangono invariati ...
+                    case Verb.MOVE: if (string.IsNullOrEmpty(command.Argument)) Console.WriteLine("Dove vuoi andare?"); else engine.Move(command.Argument); break;
+                    case Verb.LOOK: engine.Look(); break;
+                    case Verb.INVENTORY: engine.ShowInventory(); break;
+                    case Verb.PICK: if (string.IsNullOrEmpty(command.Argument)) Console.WriteLine("Cosa vuoi raccogliere?"); else engine.Pick(command.Argument); break;
+                    case Verb.DROP: if (string.IsNullOrEmpty(command.Argument)) Console.WriteLine("Cosa vuoi lasciare?"); else engine.Drop(command.Argument); break;
+                    case Verb.ATTACK: isPlaying = engine.Attack(); break;
 
-                    // --- BLOCCO EXIT FINALE E CORRETTO ---
                     case Verb.EXIT:
                         const int exitRoomId = 1;
-                        // Controlla lo stato TRAMITE le nuove proprietà dell'engine
                         if (engine.PlayerCurrentRoomId == exitRoomId)
                         {
+                            // Anche qui, prendiamo il testo dall'engine
                             if (engine.PlayerHasRescuedPrincess)
                             {
                                 Console.ForegroundColor = ConsoleColor.Yellow;
-                                Console.WriteLine(File.ReadAllText("Data/EndWin.txt"));
+                                Console.WriteLine(engine.EndWin);
                                 Console.ResetColor();
                             }
                             else
                             {
                                 Console.ForegroundColor = ConsoleColor.Blue;
-                                Console.WriteLine(File.ReadAllText("Data/EndLose.txt"));
+                                Console.WriteLine(engine.EndLose);
                                 Console.ResetColor();
                             }
                         }
-                        else
-                        {
-                            Console.WriteLine("Grazie per aver giocato!");
-                        }
+                        else { Console.WriteLine("Grazie per aver giocato!"); }
                         isPlaying = false;
                         break;
 
-                    case Verb.UNKNOWN:
-                        Console.WriteLine("Comando non valido.");
-                        break;
+                    case Verb.UNKNOWN: Console.WriteLine("Comando non valido."); break;
                 }
             }
         }

@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text.Json;
 using ZeldaTextAdventure.Models;
 
 // --- CLASSE PRINCIPALE DEL GIOCO ---
@@ -12,10 +13,16 @@ using ZeldaTextAdventure.Models;
 public class GameEngine
 {
     private readonly Player _player = new();
-    private readonly Dictionary<int, Room> _world = [];
-    private readonly Dictionary<int, Monster> _allMonsters = [];
+    private Dictionary<int, Room> _world = [];
+    private Dictionary<int, Monster> _allMonsters = [];
     public int PlayerCurrentRoomId => _player.CurrentRoomId;
     public bool PlayerHasRescuedPrincess => _player.HasRescuedPrincess;
+
+    // con 'private set' per renderle di sola lettura dall'esterno
+    public string? StartStory { get; private set; }
+    public string? EndWin { get; private set; }
+    public string? EndLose { get; private set; }
+    public string? EndDead { get; private set; }
 
     public GameEngine()
     {
@@ -25,58 +32,47 @@ public class GameEngine
     /// <summary>
     /// Carica i dati del gioco, in particolare le stanze dal file Rooms.txt
     /// </summary>
+    // In GameEngine.cs
     private void LoadGameData()
     {
-        Console.WriteLine("Caricamento del mondo di gioco...");
+        Console.WriteLine("Caricamento del mondo di gioco da JSON...");
+
+        // Aggiungi questi using in cima al file GameEngine.cs se mancano
+        // using System.Text.Json;
+        // using ZeldaTextAdventure.Models;
 
         try
         {
-            // --- 1. CARICA TUTTI I MOSTRI ---
-            string[] monsterLines = File.ReadAllLines("Data/Monsters.txt");
-            foreach (string line in monsterLines)
-            {
-                string[] parts = line.Split(';');
-                int id = int.Parse(parts[0]);
-                string name = parts[1];
-                string weakness = parts[2];
-                string unlocksDir = parts[3];
-                int unlocksRoom = int.Parse(parts[4]);
+            // 1. Legge l'intero file JSON in una stringa
+            string jsonContent = File.ReadAllText("Data/GameData.json");
 
-                Monster newMonster = new(id, name, weakness, unlocksDir, unlocksRoom);
-                _allMonsters.Add(id, newMonster);
+            // 2. La magia della deserializzazione!
+            // Con una sola riga, C# legge la stringa JSON e popola il nostro oggetto GameData
+            var gameData = JsonSerializer.Deserialize<GameData>(jsonContent);
+
+            if (gameData == null)
+            {
+                Console.WriteLine("ERRORE: Impossibile leggere i dati dal file JSON.");
+                return;
             }
 
-            // --- 2. CARICA LE STANZE E ASSEGNA I MOSTRI ---
-            string[] roomLines = File.ReadAllLines("Data/Rooms.txt");
-            foreach (string line in roomLines)
+            // 3. Popola le stringhe di testo nell'engine
+            StartStory = gameData.StartStory;
+            EndWin = gameData.EndWin;
+            EndLose = gameData.EndLose;
+            EndDead = gameData.EndDead;
+
+            // 4. Converte le liste di mostri e stanze in dizionari per un accesso veloce
+            _allMonsters = (gameData.Monsters ?? []).ToDictionary(m => m.Id);
+            _world = (gameData.Rooms ?? []).ToDictionary(r => r.Id);
+
+            // 5. Passo finale: collega i mostri alle stanze
+            foreach (var room in _world.Values)
             {
-                string[] parts = line.Split(';');
-                int id = int.Parse(parts[0]);
-                string description = parts[1];
-                Room newRoom = new(id, description);
-
-                if (int.Parse(parts[2]) != -1) newRoom.Exits["NORTH"] = int.Parse(parts[2]);
-                if (int.Parse(parts[3]) != -1) newRoom.Exits["EAST"] = int.Parse(parts[3]);
-                if (int.Parse(parts[4]) != -1) newRoom.Exits["SOUTH"] = int.Parse(parts[4]);
-                if (int.Parse(parts[5]) != -1) newRoom.Exits["WEST"] = int.Parse(parts[5]);
-
-                if (parts[6] != "-1")
+                if (room.MonsterId != -1 && _allMonsters.TryGetValue(room.MonsterId, out Monster? value))
                 {
-                    string[] itemNames = parts[6].Split(',');
-                    foreach (string itemName in itemNames)
-                    {
-                        newRoom.Items.Add(new Item(itemName.Trim()));
-                    }
+                    room.Monster = value;
                 }
-
-                // Assegna il mostro alla stanza se presente
-                int monsterId = int.Parse(parts[7]);
-                if (monsterId != -1)
-                {
-                    newRoom.Monster = _allMonsters[monsterId];
-                }
-
-                _world.Add(id, newRoom);
             }
 
             Console.WriteLine($"Caricamento completato: {_world.Count} stanze e {_allMonsters.Count} tipi di mostri caricati.");
@@ -182,8 +178,7 @@ public class GameEngine
         // Cerca l'oggetto nella stanza, ignorando le differenze tra maiuscole e minuscole.
         // FirstOrDefault è un metodo LINQ che restituisce il primo elemento che soddisfa la condizione,
         // o null se non ne trova nessuno. È perfetto per questo scopo.
-        Item? itemToPick = currentRoom.Items.FirstOrDefault(i => i.Name.Equals(itemName, StringComparison.CurrentCultureIgnoreCase));
-
+        Item? itemToPick = currentRoom.Items.FirstOrDefault(i => i.Name != null && i.Name.Equals(itemName, StringComparison.CurrentCultureIgnoreCase));
         if (itemToPick != null)
         {
             // L'oggetto è stato trovato nella stanza.
@@ -210,8 +205,8 @@ public class GameEngine
     public void Drop(string itemName)
     {
         // Cerca l'oggetto nella borsa del giocatore, ignorando le differenze tra maiuscole e minuscole.
-        Item? itemToDrop = _player.Bag.FirstOrDefault(i => i.Name.Equals(itemName, StringComparison.CurrentCultureIgnoreCase));
-
+        // In GameEngine.cs, metodo Drop()
+        Item? itemToDrop = _player.Bag.FirstOrDefault(i => i.Name != null && i.Name.Equals(itemName, StringComparison.CurrentCultureIgnoreCase));
         if (itemToDrop != null)
         {
             // L'oggetto è stato trovato nell'inventario.
@@ -259,8 +254,8 @@ public class GameEngine
         Console.WriteLine($"\nTi prepari a combattere contro {monster.Name}!");
 
         // Controlla se il giocatore ha l'arma giusta (la debolezza del mostro)
-        bool hasWeaknessItem = _player.Bag.Any(item => item.Name.Equals(monster.Weakness, StringComparison.CurrentCultureIgnoreCase));
-
+        // In GameEngine.cs, metodo Attack()
+        bool hasWeaknessItem = _player.Bag.Any(item => item.Name != null && item.Name.Equals(monster.Weakness, StringComparison.CurrentCultureIgnoreCase));
         if (hasWeaknessItem)
         {
             // --- VITTORIA ---
@@ -270,9 +265,12 @@ public class GameEngine
 
             monster.IsAlive = false;
 
-            // Sblocca la nuova uscita
-            currentRoom.Exits[monster.UnlocksExitDirection] = monster.UnlocksExitToRoom;
-            Console.WriteLine($"Sconfiggendolo, hai aperto un nuovo passaggio verso {monster.UnlocksExitDirection}!");
+            // Aggiungiamo l'uscita SOLO se la direzione è una stringa valida
+            if (!string.IsNullOrEmpty(monster.UnlocksExitDirection))
+            {
+                currentRoom.Exits[monster.UnlocksExitDirection] = monster.UnlocksExitToRoom;
+                Console.WriteLine($"Sconfiggendolo, hai aperto un nuovo passaggio verso {monster.UnlocksExitDirection}!");
+            }
 
             return true; // Il gioco continua
         }
@@ -283,8 +281,8 @@ public class GameEngine
             Console.WriteLine($"{monster.Name} è troppo forte! Senza l'arma giusta, non hai speranze.");
             Console.ResetColor();
 
-            // Legge e mostra il file di morte e termina il gioco
-            Console.WriteLine(File.ReadAllText("Data/EndDead.txt"));
+            // Usa la proprietà della classe, non leggere più il file!
+            Console.WriteLine(this.EndDead);
 
             return false; // Il gioco finisce
         }

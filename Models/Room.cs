@@ -1,23 +1,29 @@
-﻿namespace ZeldaTextAdventure.Models;
-// Questo è il file principale del nostro gioco.
-using System.Collections.Generic;
+﻿using System.Text.Json.Serialization;
 
-/// <summary>
-/// Rappresenta una stanza nel nostro castello.
-/// Contiene uscite, oggetti e un possibile mostro.
-/// </summary>
-public class Room(int id, string description)
+namespace ZeldaTextAdventure.Models
 {
-    public int ID { get; set; } = id;
-    public string Description { get; set; } = description;
+    public class Room
+    {
+        // --- PROPRIETÀ DA AGGIUNGERE/VERIFICARE ---
+        [JsonPropertyName("id")]
+        public int Id { get; set; }
 
-    // Un dizionario per le uscite. La chiave è la direzione (es. "NORTH"),
-    // il valore è l'ID della stanza a cui porta.
-    public Dictionary<string, int> Exits { get; set; } = [];
+        [JsonPropertyName("monsterId")]
+        public int MonsterId { get; set; } // Fondamentale per il caricamento
 
-    // Una lista per gli oggetti presenti nella stanza.
-    public List<Item> Items { get; set; } = [];
+        // Proprietà esistenti
+        [JsonPropertyName("description")]
+        public string? Description { get; set; }
 
-    // Il mostro nella stanza (può essere nullo se non c'è nessun mostro).
-    public Monster? Monster { get; set; }
+        [JsonPropertyName("exits")]
+        public Dictionary<string, int> Exits { get; set; } = [];
+
+        [JsonPropertyName("items")]
+        public List<Item> Items { get; set; } = [];
+
+        // Questa proprietà non viene letta dal JSON, ma la popoliamo noi dopo.
+        // La lasciamo così com'è.
+        [JsonIgnore] // Ignora questa proprietà durante la deserializzazione
+        public Monster? Monster { get; set; }
+    }
 }

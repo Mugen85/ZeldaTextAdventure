@@ -1,14 +1,16 @@
-﻿namespace ZeldaTextAdventure.Models;
+﻿// In Models/Item.cs
+using System.Text.Json.Serialization;
 
-// Questo è il file principale del nostro gioco.
-// using System.IO; serve per leggere e scrivere file.
-// --- CLASSI PER I DATI DEL GIOCO ---
-// Queste classi servono come "modelli" per gli oggetti del nostro gioco.
-
-/// <summary>
-/// Rappresenta un oggetto che il giocatore può raccogliere o lasciare.
-/// </summary>
-public class Item(string name)
+namespace ZeldaTextAdventure.Models
 {
-    public string Name { get; set; } = name;
+    public class Item
+    {
+        [JsonPropertyName("name")]
+        public string? Name { get; set; }
+
+        // Non abbiamo più bisogno di un costruttore esplicito come public Item(string name).
+        // Il deserializer JSON usa il costruttore pubblico senza parametri, che viene
+        // creato di default se non ne definiamo altri, per creare l'oggetto
+        // e poi imposta la proprietà 'Name' leggendola dal JSON.
+    }
 }
