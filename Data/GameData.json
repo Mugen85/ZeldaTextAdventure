@@ -1,0 +1,75 @@
+{
+  "startStory": "Benvenuto, eroe.\nLa principessa Zelda è stata rapita e il castello è caduto nelle tenebre.\nLa tua missione è salvarla e riportare la luce nel regno.",
+  "endWin": "Hai sconfitto il male e salvato la principessa! Il regno ti è debitore.",
+  "endLose": "Sei uscito dal castello senza la principessa... l'oscurità ha vinto.",
+  "endDead": "Sei stato sconfitto... il tuo viaggio finisce qui.",
+  "monsters": [
+    {
+      "Id": 1,
+      "Name": "Medusa",
+      "Weakness": "DAGGER",
+      "UnlocksExitDirection": "NORTH",
+      "UnlocksExitToRoom": 8
+    },
+    {
+      "Id": 2,
+      "Name": "Dracula",
+      "Weakness": "CROSS",
+      "UnlocksExitDirection": "EAST",
+      "UnlocksExitToRoom": 9
+    }
+  ],
+  "rooms": [
+    {
+      "Id": 1,
+      "Description": "Questa è l'entrata del castello. Le pareti sono umide e un'aria gelida ti accoglie.",
+      "Exits": { "EAST": 2 },
+      "Items": [
+        { "Name": "DAGGER" },
+        { "Name": "CROSS" }
+      ],
+      "MonsterId": -1
+    },
+    {
+      "Id": 2,
+      "Description": "Questa stanza ha strane forme disegnate sui muri e le torce tremolanti rendono le facce ancora più spaventose.",
+      "Exits": {
+        "NORTH": 5,
+        "WEST": 1
+      },
+      "Items": [],
+      "MonsterId": -1
+    },
+    {
+      "Id": 5,
+      "Description": "Sei in un lungo corridoio illuminato da torce. Una pesante porta di legno è di fronte a te.",
+      "Exits": {
+        "EAST": 6,
+        "SOUTH": 2
+      },
+      "Items": [],
+      "MonsterId": 1
+    },
+    {
+      "Id": 6,
+      "Description": "Questa stanza è sorprendentemente sfarzosa, con arazzi polverosi appesi alle pareti.",
+      "Exits": { "WEST": 5 },
+      "Items": [],
+      "MonsterId": 2
+    },
+    {
+      "Id": 8,
+      "Description": "Ti trovi in una piccola e spoglia cella. Nonostante la semplicità, una luce benevola sembra pervadere l'ambiente.",
+      "Exits": { "SOUTH": 5 },
+      "Items": [],
+      "MonsterId": -1
+    },
+    {
+      "Id": 9,
+      "Description": "Questa è la cripta di Dracula! L'aria è gelida e un sarcofago di pietra domina il centro della stanza.",
+      "Exits": { "WEST": 6 },
+      "Items": [ { "Name": "TESORO_FINALE" } ],
+      "MonsterId": -1
+    }
+  ]
+}
