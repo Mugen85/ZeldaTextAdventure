@@ -12,4 +12,7 @@ public class Player
 
     // La "borsa" del giocatore per contenere gli oggetti.
     public List<Item> Bag { get; set; } = [];
+
+    // Inizia come 'false' di default.
+    public bool HasRescuedPrincess { get; set; } = false;
 }

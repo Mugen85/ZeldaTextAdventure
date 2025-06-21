@@ -2,3 +2,5 @@
 2;Questa stanza ha strane forme disegnate sui muri e le torce tremolanti rendono le facce ancora più spaventose.;5;-1;-1;1;-1;-1
 5;Sei in un lungo corridoio illuminato da torce. Una pesante porta di legno è di fronte a te.;-1;6;2;-1;-1;1
 6;Questa stanza è sorprendentemente sfarzosa, con arazzi polverosi appesi alle pareti.;-1;-1;-1;5;-1;2
+8;Ti trovi in una piccola e spoglia cella. Nonostante la semplicità, una luce benevola sembra pervadere l'ambiente.;-1;-1;5;-1;-1;-1
+9;Questa è la cripta di Dracula! L'aria è gelida e un sarcofago di pietra domina il centro della stanza.;-1;-1;-1;6;TESORO_FINALE;-1

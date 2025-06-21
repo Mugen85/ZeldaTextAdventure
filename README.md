@@ -29,16 +29,16 @@ Controlla l'eroe con i seguenti comandi:
 | `DROP <oggetto>`    | `DROP CROSS`        | Lascia un oggetto nella stanza.           | ✅ **Attivo** |
 | `ATTACK`            | `ATTACK`            | Attacca il mostro presente nella stanza.  | ✅ **Attivo** |
 | `INVENTORY` / `I`   | `INVENTORY`         | Mostra il contenuto della borsa.          | ✅ **Attivo** |
-| `EXIT`              | `EXIT`              | Termina la partita.                       | ⚠️ **Da potenziare** |
+| `EXIT`              | `EXIT`              | Termina la partita.                       | ✅ **Attivo** |
 
 
 ## 📋 Prossimi Passi e Finalizzazione
 Per completare tutti i requisiti del progetto, mancano i seguenti passaggi:
 
-- [ ] Aggiungere una proprietà `HasRescuedPrincess` alla classe `Player` per tenere traccia del salvataggio.
-- [ ] Definire la stanza finale in cui si trova la principessa (es. Stanza 8 o 9).
-- [ ] Modificare la logica di movimento per impostare `HasRescuedPrincess` a `true` quando il giocatore entra nella stanza finale.
-- [ ] Potenziare il comando `EXIT` per controllare lo stato di `HasRescuedPrincess` e mostrare il messaggio di vittoria (`EndWin.txt`) o di sconfitta (`EndLose.txt`) corretto.
+- [X] Aggiungere una proprietà `HasRescuedPrincess` alla classe `Player` per tenere traccia del salvataggio.
+- [X] Definire la stanza finale in cui si trova la principessa (es. Stanza 8 o 9).
+- [X] Modificare la logica di movimento per impostare `HasRescuedPrincess` a `true` quando il giocatore entra nella stanza finale.
+- [X] Potenziare il comando `EXIT` per controllare lo stato di `HasRescuedPrincess` e mostrare il messaggio di vittoria (`EndWin.txt`) o di sconfitta (`EndLose.txt`) corretto.
 
 ---
 Sviluppato da **Marco Morello**

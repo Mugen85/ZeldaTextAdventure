@@ -150,23 +150,32 @@ public class Game
     /// <param name="direction">La direzione in cui muoversi (es. "NORTH").</param>
     private void Move(string direction)
     {
-        // Prende la stanza attuale del giocatore
         Room currentRoom = _world[_player.CurrentRoomId];
 
-        // Controlla se la direzione fornita è una delle uscite valide dalla stanza attuale
         if (currentRoom.Exits.TryGetValue(direction, out int value))
         {
-            // Se l'uscita esiste, aggiorna la stanza corrente del giocatore con l'ID della nuova stanza
+            // Aggiorna la stanza corrente del giocatore
             _player.CurrentRoomId = value;
 
             Console.WriteLine($"\nTi sposti verso {direction}...");
 
-            // Chiama Look() per descrivere la nuova stanza in cui sei appena entrato
+            // --- NUOVA LOGICA PER SALVARE LA PRINCIPESSA ---
+            const int princessRoomId = 8;
+            // Controlla se siamo entrati nella stanza della principessa E se non l'avevamo già salvata
+            if (_player.CurrentRoomId == princessRoomId && !_player.HasRescuedPrincess)
+            {
+                _player.HasRescuedPrincess = true;
+                Console.ForegroundColor = ConsoleColor.Magenta;
+                Console.WriteLine("\nIncredibile! In un angolo della stanza trovi la Principessa Zelda, sana e salva!");
+                Console.WriteLine("L'hai salvata! Ora dovete fuggire dal castello!");
+                Console.ResetColor();
+            }
+
+            // Chiama Look() per descrivere la stanza (nuova o vecchia)
             Look();
         }
         else
         {
-            // Se non c'è un'uscita in quella direzione
             Console.WriteLine("\nNon puoi andare in quella direzione. C'è un muro.");
         }
     }
@@ -336,15 +345,40 @@ public class Game
                 if (string.IsNullOrEmpty(argument)) Console.WriteLine("Cosa vuoi lasciare? Esempio: DROP SPADA");
                 else Drop(argument);
             }
-            // --- NUOVO BLOCCO PER ATTACK ---
             else if (command == "ATTACK")
             {
-                // Il valore di isPlaying viene aggiornato in base all'esito del combattimento
                 isPlaying = Attack();
             }
+            // --- BLOCCO EXIT POTENZIATO ---
             else if (command == "EXIT")
             {
-                Console.WriteLine("Grazie per aver giocato!");
+                const int exitRoomId = 1;
+                // Controlla se il giocatore sta uscendo dalla stanza iniziale
+                if (_player.CurrentRoomId == exitRoomId)
+                {
+                    // Se sì, controlla se la principessa è stata salvata
+                    if (_player.HasRescuedPrincess)
+                    {
+                        // VITTORIA
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+                        Console.WriteLine(File.ReadAllText("EndWin.txt"));
+                        Console.ResetColor();
+                    }
+                    else
+                    {
+                        // SCONFITTA
+                        Console.ForegroundColor = ConsoleColor.Blue;
+                        Console.WriteLine(File.ReadAllText("EndLose.txt"));
+                        Console.ResetColor();
+                    }
+                }
+                else
+                {
+                    // Uscita normale da un'altra stanza
+                    Console.WriteLine("Grazie per aver giocato!");
+                }
+
+                // In ogni caso, il gioco finisce
                 isPlaying = false;
             }
             else
