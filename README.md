@@ -39,5 +39,9 @@ Controlla l'eroe con i seguenti comandi:
 | `INVENTORY` / `I`   | `INVENTORY`         | Mostra il contenuto della borsa.          |
 | `EXIT`              | `EXIT`              | Termina la partita con esito variabile.   |
 
+## 🎥 Demo del Gioco
+
+![Dimostrazione del gameplay del gioco di avventura testuale](assets/ZeldaTextAdventureDemo.gif)
+
 ---
 Sviluppato da **Marco Morello**
