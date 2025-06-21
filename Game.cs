@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using ZeldaTextAdventure.Models;
 
 // --- CLASSE PRINCIPALE DEL GIOCO ---
 // Questa classe gestirà la logica principale, il caricamento e il ciclo di gioco.

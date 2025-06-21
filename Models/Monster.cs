@@ -1,4 +1,4 @@
-﻿namespace ZeldaTextAdventure;
+﻿namespace ZeldaTextAdventure.Models;
 
 /// <summary>
 /// Rappresenta un mostro nel gioco.

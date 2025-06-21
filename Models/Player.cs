@@ -1,4 +1,4 @@
-﻿namespace ZeldaTextAdventure;
+﻿namespace ZeldaTextAdventure.Models;
 // Questo è il file principale del nostro gioco.
 using System.Collections.Generic;
 
