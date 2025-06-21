@@ -304,87 +304,77 @@ public class Game
     /// Il ciclo principale del gioco che continua finché il giocatore non esce.
     /// </summary>
     private void GameLoop()
-    {
+    {     
         bool isPlaying = true;
         Look();
 
         while (isPlaying)
         {
             Console.WriteLine("\nCosa vuoi fare?");
-            string? input = Console.ReadLine()?.ToUpper().Trim();
+            string? input = Console.ReadLine();
 
-            if (string.IsNullOrEmpty(input))
-            {
-                Console.WriteLine("Per favore, inserisci un comando.");
-                continue;
-            }
+            // Il GameLoop non deve più sapere come è fatto l'input,
+            // delega tutto al parser!
+            Command command = CommandParser.Parse(input);
 
-            string[] inputParts = input.Split([' '], 2);
-            string command = inputParts[0];
-            string argument = inputParts.Length > 1 ? inputParts[1] : "";
+            // Lo switch ora è basato sull'enum, molto più pulito e sicuro!
+            switch (command.Action)
+            {
+                case Verb.MOVE:
+                    if (string.IsNullOrEmpty(command.Argument)) Console.WriteLine("Dove vuoi andare? Esempio: MOVE NORTH");
+                    else Move(command.Argument);
+                    break;
 
-            if (command == "MOVE")
-            {
-                if (string.IsNullOrEmpty(argument)) Console.WriteLine("Dove vuoi andare? Esempio: MOVE NORTH");
-                else Move(argument);
-            }
-            else if (command == "LOOK")
-            {
-                Look();
-            }
-            else if (command == "INVENTORY" || command == "I")
-            {
-                ShowInventory();
-            }
-            else if (command == "PICK")
-            {
-                if (string.IsNullOrEmpty(argument)) Console.WriteLine("Cosa vuoi raccogliere? Esempio: PICK SPADA");
-                else Pick(argument);
-            }
-            else if (command == "DROP")
-            {
-                if (string.IsNullOrEmpty(argument)) Console.WriteLine("Cosa vuoi lasciare? Esempio: DROP SPADA");
-                else Drop(argument);
-            }
-            else if (command == "ATTACK")
-            {
-                isPlaying = Attack();
-            }
-            // --- BLOCCO EXIT POTENZIATO ---
-            else if (command == "EXIT")
-            {
-                const int exitRoomId = 1;
-                // Controlla se il giocatore sta uscendo dalla stanza iniziale
-                if (_player.CurrentRoomId == exitRoomId)
-                {
-                    // Se sì, controlla se la principessa è stata salvata
-                    if (_player.HasRescuedPrincess)
+                case Verb.LOOK:
+                    Look();
+                    break;
+
+                case Verb.INVENTORY:
+                    ShowInventory();
+                    break;
+
+                case Verb.PICK:
+                    if (string.IsNullOrEmpty(command.Argument)) Console.WriteLine("Cosa vuoi raccogliere? Esempio: PICK SPADA");
+                    else Pick(command.Argument);
+                    break;
+
+                case Verb.DROP:
+                    if (string.IsNullOrEmpty(command.Argument)) Console.WriteLine("Cosa vuoi lasciare? Esempio: DROP SPADA");
+                    else Drop(command.Argument);
+                    break;
+
+                case Verb.ATTACK:
+                    isPlaying = Attack();
+                    break;
+
+                case Verb.EXIT:
+                    // ... (La logica di EXIT rimane invariata)
+                    const int exitRoomId = 1;
+                    if (_player.CurrentRoomId == exitRoomId)
                     {
-                        // VITTORIA
-                        Console.ForegroundColor = ConsoleColor.Yellow;
-                        Console.WriteLine(File.ReadAllText("EndWin.txt"));
-                        Console.ResetColor();
+                        if (_player.HasRescuedPrincess)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Yellow;
+                            Console.WriteLine(File.ReadAllText("EndWin.txt"));
+                            Console.ResetColor();
+                        }
+                        else
+                        {
+                            Console.ForegroundColor = ConsoleColor.Blue;
+                            Console.WriteLine(File.ReadAllText("EndLose.txt"));
+                            Console.ResetColor();
+                        }
                     }
                     else
                     {
-                        // SCONFITTA
-                        Console.ForegroundColor = ConsoleColor.Blue;
-                        Console.WriteLine(File.ReadAllText("EndLose.txt"));
-                        Console.ResetColor();
+                        Console.WriteLine("Grazie per aver giocato!");
                     }
-                }
-                else
-                {
-                    // Uscita normale da un'altra stanza
-                    Console.WriteLine("Grazie per aver giocato!");
-                }
+                    isPlaying = false;
+                    break;
 
-                // In ogni caso, il gioco finisce
-                isPlaying = false;
-            }
-            else
-            {
-                Console.WriteLine("Comando non valido.");
+                case Verb.UNKNOWN:
+                    Console.WriteLine("Comando non valido.");
+                    break;
             }
         }
     }
