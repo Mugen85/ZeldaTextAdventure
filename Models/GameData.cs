@@ -1,5 +1,4 @@
 ﻿// In Models/GameData.cs
-using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 namespace ZeldaTextAdventure.Models

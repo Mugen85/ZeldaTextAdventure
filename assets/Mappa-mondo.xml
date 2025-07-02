@@ -1,0 +1,141 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/27.0.9 Chrome/134.0.6998.205 Electron/35.4.0 Safari/537.36" version="27.0.9">
+  <diagram name="Mappa Castello Definitiva" id="zYxWvUtSrQpOnMlKjIhG">
+    <mxGraphModel dx="1281" dy="634" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" background="#ffffff" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="room1" value="&lt;b&gt;Stanza 1 (Entrata)&lt;/b&gt;&lt;hr style=&quot;border-color: rgb(213, 213, 213);&quot;&gt;🗡️ Pugnale&lt;br&gt;✝️ Croce" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=top;strokeColor=#a0522d;fillColor=#f4a460;fontStyle=0;spacingTop=4;shadow=1;" parent="1" vertex="1">
+          <mxGeometry x="210" y="475" width="140" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="room2" value="&lt;b&gt;Stanza 2&lt;/b&gt;&lt;hr style=&quot;border-color: rgb(213, 213, 213);&quot;&gt;Stanza di passaggio" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=top;strokeColor=#a0522d;fillColor=#f4a460;fontStyle=0;spacingTop=4;shadow=1;" parent="1" vertex="1">
+          <mxGeometry x="430" y="475" width="140" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="room5" value="&lt;b&gt;Stanza 5&lt;/b&gt;&lt;hr style=&quot;border-color: rgb(213, 213, 213);&quot;&gt;🐍 Medusa" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=top;strokeColor=#b85450;fillColor=#f8cecc;fontStyle=0;spacingTop=4;shadow=1;" parent="1" vertex="1">
+          <mxGeometry x="430" y="275" width="140" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="room6" value="&lt;b&gt;Stanza 6&lt;/b&gt;&lt;hr style=&quot;border-color: rgb(213, 213, 213);&quot;&gt;🧛 Dracula" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=top;strokeColor=#b85450;fillColor=#f8cecc;fontStyle=0;spacingTop=4;shadow=1;" parent="1" vertex="1">
+          <mxGeometry x="690" y="275" width="140" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="room8" value="&lt;b&gt;Stanza 8&lt;/b&gt;&lt;hr style=&quot;border-color: rgb(213, 213, 213);&quot;&gt;👸 Principessa Zelda" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=top;strokeColor=#d6b656;fillColor=#fff2cc;fontStyle=0;spacingTop=4;shadow=1;" parent="1" vertex="1">
+          <mxGeometry x="430" y="85" width="140" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="room9" value="&lt;b&gt;Stanza 9 (Cripta)&lt;/b&gt;&lt;hr style=&quot;border-color: rgb(213, 213, 213);&quot;&gt;💎 Tesoro Finale" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=top;strokeColor=#d6b656;fillColor=#fff2cc;fontStyle=0;spacingTop=4;shadow=1;" parent="1" vertex="1">
+          <mxGeometry x="930" y="275" width="140" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="arrow-1-2" value="EST" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=classic;endFill=1;align=center;verticalAlign=middle;" parent="1" target="room2" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="380" y="505" />
+              <mxPoint x="380" y="505" />
+            </Array>
+            <mxPoint x="350" y="505" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="arrow-2-1" value="OVEST" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=classic;endFill=1;align=center;verticalAlign=middle;" parent="1" source="room2" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="380" y="545" />
+              <mxPoint x="380" y="545" />
+            </Array>
+            <mxPoint x="350" y="545" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="arrow-2-5" value="NORD" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=classic;endFill=1;align=center;verticalAlign=middle;" parent="1" source="room2" target="room5" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="480" y="405" />
+              <mxPoint x="480" y="405" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="arrow-5-2" value="SUD" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=classic;endFill=1;align=center;verticalAlign=middle;" parent="1" source="room5" target="room2" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="520" y="405" />
+              <mxPoint x="520" y="405" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="arrow-5-6" value="EST" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=classic;endFill=1;align=center;verticalAlign=middle;" parent="1" source="room5" target="room6" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="630" y="305" />
+              <mxPoint x="630" y="305" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="arrow-6-5" value="OVEST" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=classic;endFill=1;align=center;verticalAlign=middle;" parent="1" source="room6" target="room5" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="630" y="345" />
+              <mxPoint x="630" y="345" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="arrow-8-5" value="SUD" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=classic;endFill=1;align=center;verticalAlign=middle;" parent="1" edge="1">
+          <mxGeometry y="10" relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="520" y="240" />
+              <mxPoint x="520" y="240" />
+            </Array>
+            <mxPoint x="520" y="185" as="sourcePoint" />
+            <mxPoint x="520" y="275" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="arrow-9-6" value="OVEST" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=classic;endFill=1;align=center;verticalAlign=middle;" parent="1" target="room6" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="870" y="345" />
+              <mxPoint x="870" y="345" />
+            </Array>
+            <mxPoint x="930" y="345" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="title" value="Mappa del castello" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=24;fontStyle=1;" parent="1" vertex="1">
+          <mxGeometry x="40" y="20" width="1050" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="P9oFenqepnITmNXoqiNV-3" value="&lt;span style=&quot;color: rgb(0, 0, 0); font-family: Helvetica; font-size: 11px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: center; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: nowrap; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;&quot;&gt;SUD (Bloccato)&lt;/span&gt;" style="text;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="470" y="580" width="80" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="P9oFenqepnITmNXoqiNV-4" value="INGRESSO/USCITA&lt;br&gt;CASTELLO" style="text;whiteSpace=wrap;html=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="50" y="505" width="110" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="P9oFenqepnITmNXoqiNV-7" value="" style="endArrow=classic;startArrow=classic;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="170" y="524.5" as="sourcePoint" />
+            <mxPoint x="210" y="524.5" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="190" y="524.5" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="P9oFenqepnITmNXoqiNV-9" value="EST" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=classic;endFill=1;align=center;verticalAlign=middle;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="890" y="310" />
+              <mxPoint x="890" y="310" />
+            </Array>
+            <mxPoint x="830" y="310" as="sourcePoint" />
+            <mxPoint x="930" y="310" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="P9oFenqepnITmNXoqiNV-10" value="NORD" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=classic;endFill=1;align=center;verticalAlign=middle;exitX=0.35;exitY=-0.014;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="1" source="room5">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="480" y="274" />
+            </Array>
+            <mxPoint x="480" y="265" as="sourcePoint" />
+            <mxPoint x="480" y="185" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="P9oFenqepnITmNXoqiNV-12" value="EST Bloccato" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="1069" y="310" width="100" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="P9oFenqepnITmNXoqiNV-13" value="OVEST Bloccato" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="320" y="310" width="110" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

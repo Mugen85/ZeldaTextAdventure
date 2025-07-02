@@ -3,6 +3,18 @@
 
 Un semplice gioco di avventura testuale ispirato a The Legend of Zelda, creato in C#. Questo progetto è stato sviluppato come esercizio per approfondire i concetti della programmazione orientata agli oggetti e le buone pratiche di architettura software.
 
+## 🗺️ Mappa del Gioco
+
+Questa è la mappa del castello che il giocatore esplorerà, con le stanze principali, i mostri e gli obiettivi.
+
+![Mappa del Castello di Hyrule](assets/Mappa-mondo.drawio.png)
+
+## 🏗️ Architettura del Software
+
+Il progetto segue un'architettura pulita e disaccoppiata per garantire manutenibilità e scalabilità.
+
+![Diagramma dell'architettura software](assets/architettura-sw.drawio.png)
+
 ## ✨ Features
 * **Dati di gioco centralizzati:** l'intero mondo di gioco (storia, stanze, mostri, oggetti) è definito in un unico e pulito file `GameData.json`, rendendo il gioco facilmente configurabile e modificabile.
 * **Sistema di gioco completo:** implementa tutte le meccaniche di base di un'avventura testuale: movimento, osservazione, gestione dell'inventario (`PICK`/`DROP`/`INVENTORY`) e un sistema di combattimento basato su oggetti.
