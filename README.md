@@ -13,7 +13,7 @@ Questa è la mappa del castello che il giocatore esplorerà, con le stanze princ
 
 Il progetto segue un'architettura pulita e disaccoppiata per garantire manutenibilità e scalabilità.
 
-![Diagramma dell'architettura software](assets/architettura-sw.drawio.png)
+![Diagramma dell'architettura software](assets/Architettura-sw.drawio.png)
 
 ## ✨ Features
 * **Dati di gioco centralizzati:** l'intero mondo di gioco (storia, stanze, mostri, oggetti) è definito in un unico e pulito file `GameData.json`, rendendo il gioco facilmente configurabile e modificabile.
