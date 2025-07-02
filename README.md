@@ -9,11 +9,6 @@ Questa è la mappa del castello che il giocatore esplorerà, con le stanze princ
 
 ![Mappa del Castello di Hyrule](assets/Mappa-mondo.drawio.png)
 
-## 🏗️ Architettura del Software
-
-Il progetto segue un'architettura pulita e disaccoppiata per garantire manutenibilità e scalabilità.
-
-![Diagramma dell'architettura software](assets/Architettura-sw.drawio.png)
 
 ## ✨ Features
 * **Dati di gioco centralizzati:** l'intero mondo di gioco (storia, stanze, mostri, oggetti) è definito in un unico e pulito file `GameData.json`, rendendo il gioco facilmente configurabile e modificabile.
@@ -22,7 +17,11 @@ Il progetto segue un'architettura pulita e disaccoppiata per garantire manutenib
 * **Architettura software robusta:** il codice è stato attentamente rifattorizzato seguendo principi di singola responsabilità, con una netta separazione tra i vari componenti del gioco.
 
 ## 🏗️ Architettura del software
-Il progetto è stato strutturato per essere pulito, mantenibile e scalabile. I componenti principali sono:
+Il progetto è stato strutturato per essere pulito, mantenibile e scalabile. Segue un'architettura pulita e disaccoppiata per garantire manutenibilità e scalabilità. 
+
+![Diagramma dell'architettura software](assets/Architettura-sw.drawio.png)
+
+I componenti principali sono:
 * **`Program.cs` (Il coordinatore):** gestisce il ciclo di gioco principale (`GameLoop`) e orchestra le interazioni tra l'utente e il motore di gioco.
 * **`GameEngine.cs` (Il motore di gioco):** contiene tutto lo stato del gioco (`Player`, `World`) e la logica delle azioni (`Move`, `Attack`, etc.). Non si occupa di interpretare i comandi, ma solo di eseguirli.
 * **`CommandParser.cs` (L'interprete):** ha la singola responsabilità di tradurre l'input testuale dell'utente in comandi strutturati e type-safe (usando un `enum`), disaccoppiando l'input dalla logica di gioco.
